@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="12" md="4" v-for="data in testData" :key="data.id">
+      <v-col cols="12" md="4" v-for="data in myCatch" :key="data.id">
         <Card :pokemon="data" />
       </v-col>
     </v-row>
@@ -10,6 +10,7 @@
 
 <script>
 import Card from "@/components/cards/card.vue";
+import { mapState } from "vuex";
 export default {
   name: "Home",
   components: {
@@ -23,6 +24,13 @@ export default {
         { id: "10", name: "charlie", type: "air", height: "na", weight: "na" },
       ],
     };
+  },
+  computed: {
+    ...mapState(["myCatch"]),
+  },
+  created() {
+    this.$store.dispatch("update_list");
+    // this.$store.dispatch("showEmAll");
   },
 };
 </script>

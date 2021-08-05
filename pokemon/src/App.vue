@@ -2,7 +2,7 @@
   <v-app>
     <Header />
 
-    <v-main>
+    <v-main >
       <router-view />
     </v-main>
     <Footer />
@@ -18,7 +18,5 @@ export default {
     Header,
     Footer,
   },
-
-  
 };
 </script>

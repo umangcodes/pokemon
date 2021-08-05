@@ -1,13 +1,16 @@
 <template>
-  <v-card elevation="10">
+  <v-card elevation="10" class="rounded-xl">
     <v-img
-      class="white--text align-end"
+      contain
+      class="black--text align-end"
       height="200px"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      :src="pokemon.sprites.front_default"
     >
       <v-card-title>{{ pokemon.name }}</v-card-title>
       <v-card-subtitle
-        >{{ pokemon.type }} || {{ pokemon.height }} || {{ pokemon.weight }}
+        > H:{{ pokemon.height / 10 }}m || W:{{
+          pokemon.weight / 10
+        }}Kg
       </v-card-subtitle></v-img
     >
   </v-card>
@@ -16,6 +19,9 @@
 <script>
 export default {
   props: ["pokemon"],
+  created() {
+    // console.log(this.pokemon.name);
+  },
 };
 </script>
 

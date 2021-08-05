@@ -1,5 +1,13 @@
 <template>
-  <v-app-bar color="primary" dark app absolute dense>
+  <v-app-bar
+    color="primary"
+    dark
+    app
+    absolute
+    dense
+    elevate-on-scroll
+    scroll-target="#main-sheet"
+  >
     <v-toolbar-title
       ><v-btn text rounded plain to="/home" style="">Pokemon challenge</v-btn>
     </v-toolbar-title>
