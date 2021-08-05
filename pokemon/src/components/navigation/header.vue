@@ -9,7 +9,8 @@
     scroll-target="#main-sheet"
   >
     <v-toolbar-title
-      ><v-btn text rounded plain to="/home" style="">Pokemon challenge</v-btn>
+      ><v-btn text rounded plain to="/home" style=""><v-icon>mdi-pokemon-go</v-icon>
+      Pokemon challenge</v-btn>
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn text rounded to="/home">Home</v-btn>
