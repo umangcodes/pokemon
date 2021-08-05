@@ -23,14 +23,11 @@ export default new Vuex.Store({
   },
   actions: {
     async update_list({ state, commit }) {
-      let res = await pokemon.catchThemFifty();
+      let res = await pokemon.catchThemFifty(); // refactor to call the api just once
       commit("UPDATE_LIST", res.data);
       let list = [];
       for (let iterator = 0; iterator < state.pokemonList.length; iterator++) {
-        // console.log(state.pokemonList.length)
-        // console.log(state.pokemonList[iterator]);
         let res = await pokemon.catchOne(state.pokemonList[iterator].name);
-        // console.log("instance" + iterator);
         list.push(res.data);
       }
       console.log(list);
