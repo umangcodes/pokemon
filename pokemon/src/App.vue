@@ -1,8 +1,8 @@
 <template>
-  <v-app>
+  <v-app :style="{ background: $vuetify.theme.themes.light.background }">
     <Header />
 
-    <v-main >
+    <v-main id="main-sheet" class="overflow-y-auto" max-height="600">
       <router-view />
     </v-main>
     <Footer />
