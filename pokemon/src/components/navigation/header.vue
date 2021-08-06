@@ -1,16 +1,9 @@
 <template>
-  <v-app-bar
-    color="primary"
-    dark
-    app
-    absolute
-    dense
-    elevate-on-scroll
-    scroll-target="#main-sheet"
-  >
+  <v-app-bar color="primary" dark app dense elevate-on-scroll>
     <v-toolbar-title
-      ><v-btn text rounded plain to="/home" style=""><v-icon>mdi-pokemon-go</v-icon>
-      Pokemon challenge</v-btn>
+      ><v-btn text rounded plain to="/home" style=""
+        ><v-icon>mdi-pokemon-go</v-icon> Pokemon challenge</v-btn
+      >
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn text rounded to="/home">Home</v-btn>

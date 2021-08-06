@@ -27,6 +27,8 @@ export default {
   methods: {
     catchMore() {
       console.log("button clicked");
+      // dispatch an action which will get the data of loadMore items and push it to the already exisiting myCatch
+      this.$store.dispatch("catchMorePokemons");
     },
   },
 };

@@ -29,7 +29,9 @@ export default {
     ...mapState(["myCatch"]),
   },
   created() {
-    this.$store.dispatch("update_list");
+    if (this.$store.state.currentCatch == 0) {
+      this.$store.dispatch("update_list");
+    }
     // this.$store.dispatch("showEmAll");
   },
 };
