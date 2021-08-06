@@ -29,7 +29,7 @@ export default {
     return {
       links: [
         { id: "99", title: "home", url: "/home" },
-        { id: "99", title: "view", url: "/view1" },
+        { id: "98", title: "view", url: "/view1" },
       ],
     };
   },
