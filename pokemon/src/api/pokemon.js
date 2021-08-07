@@ -9,7 +9,7 @@ const apiClient = axios.create({
 });
 
 export default {
-  catchThemFifty() {
+  catchThemFirst() {
     return apiClient.get("/?limit=150&offset=0");
   },
   catchThem(limit, offset) {

@@ -7,10 +7,6 @@
       >
       <v-spacer></v-spacer>
       Current Page: {{ $store.state.currentPage }}
-      <!-- <v-spacer></v-spacer> -->
-      <!-- <div v-for="page in pages" :key="page">
-        <v-btn icon> {{ page }} </v-btn>
-      </div> -->
       <v-spacer></v-spacer>
 
       <v-btn icon @click="nextPage()"><v-icon>mdi-chevron-right</v-icon></v-btn>

@@ -40,8 +40,16 @@ export default {
       this.$store.dispatch("catchMorePokemons");
     },
   },
-  created() {
-    this.$store.dispatch("initialDisplay", 50);
+  async created() {
+    console.log("View 1 created");
+    if (this.$store.state.currentCatch == 0) {
+      await this.$store.dispatch("firstCall");
+      console.log("first call done");
+      this.$store.dispatch(
+        "initialDisplay",
+        this.$store.state.firstLoadDisplay
+      );
+    }
   },
 };
 </script>

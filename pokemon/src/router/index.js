@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+
 import View1 from "@/views/view1.vue";
 import View2 from "@/views/view2.vue";
 
@@ -9,16 +9,6 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path: "/home",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path: "/view1",
     name: "view1",
     component: View1,
   },

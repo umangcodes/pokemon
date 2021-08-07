@@ -6,19 +6,19 @@ import pokemon from "../api/pokemon";
 export default new Vuex.Store({
   state: {
     pokemonList: [],
+    myCatch: [], // api call data store !! do not touch [details]
+    currentCatch: 0, // api call data store !! do not touch [length of my catch ]
+    display: [],
 
-    currentPage: 1,
-    currentCatch: 0,
-    myCatch: [],
     displayStartLimit: 0,
     displayStopLimit: 50,
-    display: [],
-    outOfBound: [false, false],
+    outOfBound: [true, false],
+    currentPage: 1,
     totalDisplay: 50,
+
     firstLoadDisplay: 50,
     loadMore: 15,
-    currentLoad:0,
-
+    currentLoad: 0,
   },
   mutations: {
     UPDATE_LIST(state, payload) {
@@ -65,13 +65,16 @@ export default new Vuex.Store({
     },
     INITIAL_DISPLAY(state, limit) {
       state.display = [];
+      console.log("initial display");
+      console.log(state.myCatch);
       state.display = state.myCatch.slice(0, limit);
+      console.log(state.display);
     },
   },
   actions: {
     //inital fetch
     async update_list({ state, commit }) {
-      let res = await pokemon.catchThemFifty(); // refactor to call the api just once
+      let res = await pokemon.catchThemFirst(); // refactor to call the api just once
       commit("UPDATE_LIST", res.data.results);
       let list = [];
       for (let iterator = 0; iterator < state.pokemonList.length; iterator++) {
@@ -80,6 +83,17 @@ export default new Vuex.Store({
       }
       console.log(list);
       commit("APPEND_LIST", list);
+    },
+    async firstCall({ state, commit }) {
+      let res = await pokemon.catchThemFirst(); // get names
+      commit("UPDATE_LIST", res.data.results); // store names
+      let list = []; // temp list
+      for (let iterator = 0; iterator < state.pokemonList.length; iterator++) {
+        let res = await pokemon.catchOne(state.pokemonList[iterator].name);
+        list.push(res.data); //  get details
+      }
+      console.log(list);
+      commit("APPEND_LIST", list); // update myCatch and currentCatch
     },
     //subsequent fetch using load more button
     async catchMorePokemons({ state, commit }) {
@@ -92,6 +106,7 @@ export default new Vuex.Store({
         let res = await pokemon.catchOne(state.pokemonList[iterator].name);
         list.push(res.data);
       }
+
       commit("APPEND_LIST", list);
     },
     updatePage({ commit }, offset) {
@@ -111,13 +126,13 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    catchZones: (state) => {
-      if (state.currentCatch > 0) {
-        console.log("getter");
-        console.log(Math.round(state.currentCatch / state.pokeBalls));
-        return Math.round(state.currentCatch / state.pokeBalls);
-      }
-    },
+    // catchZones: (state) => {
+    //   if (state.currentCatch > 0) {
+    //     console.log("getter");
+    //     console.log(Math.round(state.currentCatch / state.pokeBalls));
+    //     return Math.round(state.currentCatch / state.pokeBalls);
+    //   }
+    // },
   },
   modules: {},
 });

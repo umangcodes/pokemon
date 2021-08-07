@@ -56,7 +56,7 @@ export default {
     loadNext(e) {
       this.$store.dispatch("updatePage", 30);
       console.log(this.currentPage);
-      this.$store.state.currentPage = e.updatePage;
+      this.$store.state.currentPage = e.updatePage; // refactor todo: illegal : dispatch an action
       this.myCards = this.$store.state.myCatch.slice(
         this.$store.state.displayStartLimit,
         this.$store.state.displayStopLimit
@@ -66,7 +66,7 @@ export default {
       this.$store.dispatch("updateDisplay", this.myCards);
     },
     loadPrevious(e) {
-      this.$store.state.currentPage = e.updatePage;
+      this.$store.state.currentPage = e.updatePage; // refactor todo: illegal : dispatch an action
       console.log("update:" + e.updatePage);
       if (this.$store.state.currentPage > 1) {
         this.$store.dispatch("updatePageReverse", -30);
@@ -74,6 +74,7 @@ export default {
         this.$store.state.currentPage > 0 &&
         this.$store.state.outOfBound[0] == false
       ) {
+        console.log("else");
         this.$store.dispatch("updateBound", [true, false]);
         this.$store.dispatch("updatePageReverse", -50);
       }

@@ -28,8 +28,8 @@ export default {
   data() {
     return {
       links: [
-        { id: "99", title: "home", url: "/home" },
-        { id: "98", title: "view", url: "/view1" },
+        { id: "99", title: "home", url: "/" },
+        { id: "98", title: "view", url: "/view2" },
       ],
     };
   },
