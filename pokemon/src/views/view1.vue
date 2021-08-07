@@ -1,12 +1,17 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="12" md="4" v-for="data in myCatch" :key="data.id">
+      <v-col cols="12" md="4" v-for="data in display" :key="data.id">
         <Card :pokemon="data" />
       </v-col>
     </v-row>
-    <v-row justify="center" align="center">
-      <v-btn text rounded @click="catchMore()">Go catch more!</v-btn>
+    <v-row justify="center" align="center" class="pa-5" elevation="2">
+      <v-btn text rounded @click="catchMore()"
+        ><v-icon>mdi-chevron-right</v-icon>
+        <v-icon>mdi-chevron-right</v-icon> Go catch more!
+        <v-icon>mdi-chevron-left</v-icon>
+        <v-icon>mdi-chevron-left</v-icon>
+      </v-btn>
     </v-row>
   </v-container>
 </template>
@@ -22,14 +27,18 @@ export default {
     Card,
   },
   computed: {
-    ...mapState(["myCatch"]),
+    ...mapState(["myCatch", "display"]),
   },
   methods: {
     catchMore() {
       console.log("button clicked");
-      // dispatch an action which will get the data of loadMore items and push it to the already exisiting myCatch
+      this.$store.state.loadMore += 15;
+      this.$store.dispatch("initialDisplay", this.$store.state.loadMore);
       this.$store.dispatch("catchMorePokemons");
     },
+  },
+  created() {
+    this.$store.dispatch("initialDisplay", 50);
   },
 };
 </script>
