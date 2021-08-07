@@ -32,8 +32,11 @@ export default {
   methods: {
     catchMore() {
       console.log("button clicked");
-      this.$store.state.loadMore += 15;
-      this.$store.dispatch("initialDisplay", this.$store.state.loadMore);
+      this.$store.state.currentLoad += this.$store.state.loadMore;
+      this.$store.dispatch(
+        "initialDisplay",
+        this.$store.state.firstLoadDisplay + this.$store.state.currentLoad
+      );
       this.$store.dispatch("catchMorePokemons");
     },
   },

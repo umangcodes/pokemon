@@ -6,16 +6,19 @@ import pokemon from "../api/pokemon";
 export default new Vuex.Store({
   state: {
     pokemonList: [],
-    pokeBalls: 30,
+
     currentPage: 1,
     currentCatch: 0,
     myCatch: [],
-    loadMore: 15,
     displayStartLimit: 0,
     displayStopLimit: 50,
     display: [],
     outOfBound: [false, false],
     totalDisplay: 50,
+    firstLoadDisplay: 50,
+    loadMore: 15,
+    currentLoad:0,
+
   },
   mutations: {
     UPDATE_LIST(state, payload) {
