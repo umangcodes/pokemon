@@ -65,7 +65,8 @@ export default new Vuex.Store({
     },
     UPDATE_DISPLAY(state, limit) {
       state.display = [];
-      state.display = state.myCatch.slice(0, limit);
+      console.log(limit);
+      state.display = state.myCatch.slice(limit[0], limit[1]);
     },
     UPDATE_CURRENT_LOAD(state, limit) {
       state.currentLoad += limit; // 0 initially

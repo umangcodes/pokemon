@@ -32,10 +32,10 @@ export default {
   methods: {
     catchMore() {
       this.$store.dispatch("updateCurrentLoad", this.$store.state.loadMore);
-      this.$store.dispatch(
-        "updateDisplay",
-        this.$store.state.firstLoadDisplay + this.$store.state.currentLoad
-      );
+      this.$store.dispatch("updateDisplay", [
+        0,
+        this.$store.state.firstLoadDisplay + this.$store.state.currentLoad,
+      ]);
       this.$store.dispatch("catchMorePokemons");
     },
   },
@@ -43,10 +43,16 @@ export default {
     console.log("View 1 created");
     if (this.$store.state.currentCatch == 0) {
       await this.$store.dispatch("firstCall");
-      this.$store.dispatch("updateDisplay", this.$store.state.firstLoadDisplay);
+      this.$store.dispatch("updateDisplay", [
+        0,
+        this.$store.state.firstLoadDisplay,
+      ]);
     } else {
       this.$store.dispatch("resetCurrentLoad");
-      this.$store.dispatch("updateDisplay", this.$store.state.firstLoadDisplay);
+      this.$store.dispatch("updateDisplay", [
+        0,
+        this.$store.state.firstLoadDisplay,
+      ]);
     }
   },
 };
