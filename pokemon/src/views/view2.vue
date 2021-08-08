@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       myCards: [],
+      localPokemons: [],
     };
   },
   components: {
@@ -52,6 +53,9 @@ export default {
     ]),
   },
   methods: {
+    createSlice(limit) {
+      this.localPokemons = this.$store.state.myCatch.slice(limit[0], limit[1]);
+    },
     loadNext(e) {
       this.$store.dispatch("updatePage", {
         offset: 30,
@@ -101,11 +105,10 @@ export default {
         0,
         this.$store.state.firstLoadDisplay,
       ]);
+      this.createSlice([0, this.$store.state.firstLoadDisplay]);
+      console.log("local Pokemons");
+      console.log(this.localPokemons);
     }
-    // this.$store.dispatch("updateDisplay", [
-    //   this.$store.state.displayStartLimit,
-    //   this.$store.state.displayStopLimit,
-    // ]);
   },
 };
 </script>
