@@ -54,31 +54,35 @@ export default {
   },
   methods: {
     loadNext(e) {
-      this.$store.dispatch("updatePage", 30);
-      console.log(this.currentPage);
-      this.$store.state.currentPage = e.updatePage; // refactor todo: illegal : dispatch an action
+      this.$store.dispatch("updatePage", {
+        offset: 30,
+        page_number: e.updatePage,
+      });
       this.myCards = this.$store.state.myCatch.slice(
         this.$store.state.displayStartLimit,
         this.$store.state.displayStopLimit
       );
       this.$store.dispatch("updateBound", [false, false]);
-
       this.$store.dispatch("updateDisplay", this.myCards);
     },
     loadPrevious(e) {
-      this.$store.state.currentPage = e.updatePage; // refactor todo: illegal : dispatch an action
-      console.log("update:" + e.updatePage);
+      // refactor todo: illegal : dispatch an action
+      this.$store.dispatch("updateCurrentPage", e.updatePage);
       if (this.$store.state.currentPage > 1) {
-        this.$store.dispatch("updatePageReverse", -30);
+        this.$store.dispatch("updatePageReverse", {
+          offset: -30,
+          page_number: e.updatePage,
+        });
       } else if (
         this.$store.state.currentPage > 0 &&
         this.$store.state.outOfBound[0] == false
       ) {
-        console.log("else");
         this.$store.dispatch("updateBound", [true, false]);
-        this.$store.dispatch("updatePageReverse", -50);
+        this.$store.dispatch("updatePageReverse", {
+          offset: -50,
+          page_number: 1,
+        });
       }
-
       this.myCards = this.$store.state.myCatch.slice(
         this.$store.state.displayStartLimit,
         this.$store.state.displayStopLimit
@@ -86,7 +90,8 @@ export default {
       this.$store.dispatch("updateDisplay", this.myCards);
     },
   },
-  created() {
+  async created() {
+    console.log("View 2 created");
     this.myCards = this.$store.state.myCatch.slice(
       this.$store.state.displayStartLimit,
       this.$store.state.displayStopLimit

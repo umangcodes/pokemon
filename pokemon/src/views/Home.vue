@@ -18,21 +18,15 @@ export default {
   },
 
   data() {
-    return {
-      testData: [
-        { id: "5", name: "bbsaur", type: "ground", height: "na", weight: "na" },
-        { id: "10", name: "charlie", type: "air", height: "na", weight: "na" },
-      ],
-    };
+    return {};
   },
   computed: {
     ...mapState(["myCatch"]),
   },
   created() {
     if (this.$store.state.currentCatch == 0) {
-      this.$store.dispatch("update_list");
+      this.$store.dispatch("firstCall");
     }
-    // this.$store.dispatch("showEmAll");
   },
 };
 </script>

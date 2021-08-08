@@ -34,10 +34,10 @@ export default {
       console.log("pp");
       if (this.center - 1 > 0) {
         this.pages = this.createRange();
-        console.log("Pagination Comp: " + this.center);
+        // console.log("Pagination Comp: " + this.center);
         this.$emit("previousPage", { updatePage: this.center - 1 });
       } else {
-        console.log("Pagination Comp: " + this.center);
+        // console.log("Pagination Comp: " + this.center);
         this.pages = this.createRange();
         this.$emit("previousPage", { updatePage: this.center });
       }
