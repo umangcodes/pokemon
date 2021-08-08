@@ -67,6 +67,12 @@ export default new Vuex.Store({
       state.display = [];
       state.display = state.myCatch.slice(0, limit);
     },
+    UPDATE_CURRENT_LOAD(state, limit) {
+      state.currentLoad += limit; // 0 initially
+    },
+    RESET_CURRENT_LOAD(state) {
+      state.currentLoad = 0;
+    },
     UPDATE_CURRENT_CATCH(state, payload) {
       state.currentCatch = payload;
     },
@@ -102,7 +108,12 @@ export default new Vuex.Store({
     updateDisplay({ commit }, limit) {
       commit("UPDATE_DISPLAY", limit);
     },
-
+    updateCurrentLoad({ commit }, limit) {
+      commit("UPDATE_CURRENT_LOAD", limit);
+    },
+    resetCurrentLoad({ commit }) {
+      commit("RESET_CURRENT_LOAD");
+    },
     updatePage({ commit }, parameters) {
       commit("UPDATE_PAGE", parameters);
     },

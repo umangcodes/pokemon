@@ -23,21 +23,21 @@ export default {
       outOfBounds: false,
     };
   },
-  props: { center: Number, bound: Array },
+  props: { center: Number, bound: Array }, // center is alias for current page.
   methods: {
     nextPage() {
-      console.log("np");
+      console.log("Next page clicked!");
       this.$emit("nextPage", { updatePage: this.center + 1 });
       this.pages = this.createRange();
     },
     previousPage() {
-      console.log("pp");
+      console.log("Previous button clicked!");
       if (this.center - 1 > 0) {
+        // guard to avoid negative pages
         this.pages = this.createRange();
-        // console.log("Pagination Comp: " + this.center);
         this.$emit("previousPage", { updatePage: this.center - 1 });
       } else {
-        // console.log("Pagination Comp: " + this.center);
+        // even if bound is not provided, this will emit the same page.
         this.pages = this.createRange();
         this.$emit("previousPage", { updatePage: this.center });
       }
