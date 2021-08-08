@@ -5,32 +5,49 @@ Vue.use(Vuex);
 import pokemon from "../api/pokemon";
 export default new Vuex.Store({
   state: {
-    pokemons: [],
-    myCatch: [], // api call data store !! do not touch [details]
-    currentCatch: 0, // api call data store !! do not touch [length of my catch ]
-    display: [],
-
+    pokemons: [], // api call data store !! imp[list]
+    myCatch: [], // api call data store !! imp[details]
+    currentCatch: 0, // api call data store !! imp[length of my catch ]
+    display: [], // cards to render
+    // view 1
+    firstLoadDisplay: 50,
+    loadMore: 15,
+    currentLoad: 0,
+    //view 2
     displayStartLimit: 0,
     displayStopLimit: 50,
     outOfBound: [true, false],
     currentPage: 1,
     totalDisplay: 50,
-
-    firstLoadDisplay: 50,
-    loadMore: 15,
-    currentLoad: 0,
   },
   mutations: {
     UPDATE_LIST(state, payload) {
       state.pokemons = payload;
       console.log(state.pokemons);
       console.log(state.currentCatch);
-    },
+    }, // updates pokemons
     APPEND_LIST(state, payload) {
       state.myCatch.push(...payload);
       state.currentCatch = state.myCatch.length;
       console.log(state.currentCatch);
-    },
+    }, // updates my catch
+    UPDATE_DISPLAY(state, limit) {
+      state.display = [];
+      console.log(limit);
+      state.display = state.myCatch.slice(limit[0], limit[1]);
+    }, // updates display
+    UPDATE_CURRENT_CATCH(state, payload) {
+      state.currentCatch = payload;
+    }, // length of my catch
+
+    // view 1 mutations
+    UPDATE_CURRENT_LOAD(state, limit) {
+      state.currentLoad += limit;
+    }, // card limit for display after inital load
+    RESET_CURRENT_LOAD(state) {
+      state.currentLoad = 0;
+    }, // reset card limit
+    // view 2 mutations
     UPDATE_PAGE(state, { offset, page_number }) {
       state.currentPage = page_number;
       state.displayStartLimit = state.displayStopLimit;
@@ -42,11 +59,8 @@ export default new Vuex.Store({
           state.displayStartLimit,
           state.displayStopLimit
         );
-      } else {
-        //call api for more data
-        // slice data
       }
-    },
+    }, // update page when next is clicked
     UPDATE_PAGE_R(state, { offset, page_number }) {
       state.currentPage = page_number;
       state.displayStopLimit = state.displayStartLimit;
@@ -59,27 +73,13 @@ export default new Vuex.Store({
           state.displayStopLimit
         );
       }
-    },
-    UPDATE_BOUND(state, payload) {
-      state.outOfBound = payload; // [lower, higher]
-    },
-    UPDATE_DISPLAY(state, limit) {
-      state.display = [];
-      console.log(limit);
-      state.display = state.myCatch.slice(limit[0], limit[1]);
-    },
-    UPDATE_CURRENT_LOAD(state, limit) {
-      state.currentLoad += limit; // 0 initially
-    },
-    RESET_CURRENT_LOAD(state) {
-      state.currentLoad = 0;
-    },
-    UPDATE_CURRENT_CATCH(state, payload) {
-      state.currentCatch = payload;
-    },
+    }, // update page when reversed is clicked
     UPDATE_CURRENT_PAGE(state, page) {
       state.currentPage = page;
-    },
+    }, // update current page
+    UPDATE_BOUND(state, payload) {
+      state.outOfBound = payload; // [lower, higher]
+    }, // update outOfBound
   },
   actions: {
     //inital fetch
@@ -106,14 +106,14 @@ export default new Vuex.Store({
       }
       commit("APPEND_LIST", list);
     },
-    updateDisplay({ commit }, limit) {
-      commit("UPDATE_DISPLAY", limit);
-    },
     updateCurrentLoad({ commit }, limit) {
       commit("UPDATE_CURRENT_LOAD", limit);
     },
     resetCurrentLoad({ commit }) {
       commit("RESET_CURRENT_LOAD");
+    },
+    updateDisplay({ commit }, limit) {
+      commit("UPDATE_DISPLAY", limit);
     },
     updatePage({ commit }, parameters) {
       commit("UPDATE_PAGE", parameters);
@@ -121,11 +121,11 @@ export default new Vuex.Store({
     updatePageReverse({ commit }, parameters) {
       commit("UPDATE_PAGE_R", parameters);
     },
-    updateBound({ commit }, payload) {
-      commit("UPDATE_BOUND", payload);
-    },
     updateCurrentPage({ commit }, updatedPage) {
       commit("UPDATE_CURRENT_PAGE", updatedPage);
+    },
+    updateBound({ commit }, payload) {
+      commit("UPDATE_BOUND", payload);
     },
   },
   getters: {},
