@@ -1,37 +1,33 @@
-import axios from "axios";
-const pokemonApi = axios.create({
-  baseURL: `https://pokeapi.co/api/v2/pokemon`,
-  withCredentials: false, // This is the default
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
+async function getPokemonFromUrl(id) {
+  const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+  const response = await fetch(url);
+  return response.json();
+}
+
+function transformPokemon(pokemon) {
+  return {
+    id: pokemon.id,
+    name: pokemon.name,
+    image: pokemon.sprites.front_default,
+    height: pokemon.height,
+    weight: pokemon.weight,
+  };
+}
 
 export default {
   async countPokemons() {
-    return this.pokemons.length;
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon");
+    const { count } = await response.json();
+    return count;
   },
-  async callApi(){
-    let res = await pokemonApi.get(
-      `/?limit=${queryOptions.limit || 150}&offset=${queryOptions.offset}`
+
+  async getPokemons({ offset, limit }) {
+    const pokemonIds = Array.from(
+      { length: limit || 20 },
+      (_, i) => i + 1 + (offset || 0)
     );
-    
-    let pokemons = res.data.results.slice(start, end);
-    let array = [];
-    for (let i = start; i < end; i += 1) {
-      let res = await pokemonApi.get(`/${pokemons[i].name}`);
-      console.log(res.data);
-      array.push(res.data);
-    }
-    
-
-    return pokemons;
-
-  },
-  async getPokemons(queryOptions) {
-    const start = queryOptions.offset || 0;
-    const end = start + (queryOptions.limit || 50);
-    pokemons = array.slice(start, end);
+    const pokemonPromises = pokemonIds.map(getPokemonFromUrl);
+    const pokemons = await Promise.all(pokemonPromises);
+    return pokemons.map(transformPokemon);
   },
 };

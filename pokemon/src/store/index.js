@@ -38,7 +38,6 @@ export default new Vuex.Store({
     async loadMorePokemons({ state, commit }, limit) {
       commit("SET_LOADING", true);
       const queryOptions = { limit, offset: state.pokemons.length };
-      console.log(`${queryOptions.limit}, ${queryOptions.offset}`);
       commit("ADD_POKEMONS", await pokemonApi.getPokemons(queryOptions));
       commit("SET_LOADING", false);
     },
