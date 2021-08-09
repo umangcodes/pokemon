@@ -18,7 +18,29 @@
 ### View 1
 
 ```
-npm run build
+- when component is created, it dispatches an action --> loadPokemons
+
+- loadPokemons
+    loading --> 1
+    dispatch action: loadPokemons [calls api]
+        - with limit 50 it creates array and map  function getPokemonFromUrl to generate promises
+        - wait for promise to resolve
+        - transform array to make it compitable with the code
+        - return transformed array
+    loading --> 0
+
+- on button is clicked, loadMoreHandler is called
+
+- loadMoreHandler
+    loading --> 1
+    dispatch action: loadMorePokemons[calls api]
+        - create a object with limit and offset
+        - use the object to call the api
+        - then same as above
+    loading --> 0
+
+- when loading the button will display loading instead of load more.
+
 ```
 
 ### View 2
