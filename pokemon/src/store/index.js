@@ -6,56 +6,55 @@ import pokemon from "../api/pokemon";
 export default new Vuex.Store({
   state: {
     pokemons: [], // api call data store !! imp[list]
-    myCatch: [], // api call data store !! imp[details]
-    currentCatch: 0, // api call data store !! imp[length of my catch ]
+    myInventory: [], // api call data store !! imp[details]
+    currentInventory: 0, // api call data store !! imp[length of my Inventory ]
     display: [], // cards to render
     // view 1
     firstLoadDisplay: 50,
     loadMore: 15,
-    currentLoad: 0,
     pokemonsPerPage: 30,
+    totalPages: 5,
   },
   mutations: {
     UPDATE_LIST(state, payload) {
       state.pokemons = payload;
       console.log(state.pokemons);
-      console.log(state.currentCatch);
+      console.log(state.currentInventory);
     }, // updates pokemons
     APPEND_LIST(state, payload) {
-      state.myCatch.push(...payload);
-      state.currentCatch = state.myCatch.length;
-      console.log(state.currentCatch);
-    }, // updates my catch
+      state.myInventory.push(...payload);
+      state.currentInventory = state.myInventory.length;
+      console.log(state.currentInventory);
+    }, // updates my Inventory
     UPDATE_DISPLAY(state, limit) {
       state.display = [];
       console.log(limit);
-      state.display = state.myCatch.slice(limit[0], limit[1]);
+      state.display = state.myInventory.slice(limit[0], limit[1]);
     }, // updates display
-    UPDATE_CURRENT_CATCH(state, payload) {
-      state.currentCatch = payload;
-    }, // length of my catch
+    UPDATE_CURRENT_CAPTURE(state, payload) {
+      state.currentInventory = payload;
+    }, // length of my Inventory
   },
   actions: {
-    //inital fetch
     async firstCall({ state, commit }) {
-      let res = await pokemon.catchThemFirst(); // get names
+      console.log("store first call");
+      let res = await pokemon.captureThemFirst(); // get names
       commit("UPDATE_LIST", res.data.results); // store names
       let list = []; // temp list
       for (let iterator = 0; iterator < state.pokemons.length; iterator++) {
-        let res = await pokemon.catchOne(state.pokemons[iterator].name);
+        let res = await pokemon.captureOne(state.pokemons[iterator].name);
         list.push(res.data); //  get details
       }
-      commit("APPEND_LIST", list); // update myCatch and currentCatch
+      commit("APPEND_LIST", list); // update mycapture and currentInventory
     },
-    //subsequent fetch using load more button
-    async catchMorePokemons({ state, commit }, captureMore) {
-      commit("UPDATE_CURRENT_CATCH", state.myCatch.length);
-      let res = await pokemon.catchThem(captureMore, state.currentCatch);
-      state.currentCatch += captureMore;
+    async captureMorePokemons({ state, commit }, captureMore) {
+      commit("UPDATE_CURRENT_CAPTURE", state.myInventory.length);
+      let res = await pokemon.captureThem(captureMore, state.currentInventory);
+      state.currentInventory += captureMore;
       commit("UPDATE_LIST", res.data.results);
       let list = [];
       for (let iterator = 0; iterator < state.pokemons.length; iterator++) {
-        let res = await pokemon.catchOne(state.pokemons[iterator].name);
+        let res = await pokemon.captureOne(state.pokemons[iterator].name);
         list.push(res.data);
       }
       commit("APPEND_LIST", list);

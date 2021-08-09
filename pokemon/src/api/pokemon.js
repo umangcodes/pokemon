@@ -9,13 +9,14 @@ const apiClient = axios.create({
 });
 
 export default {
-  catchThemFirst() {
+  captureThemFirst() {
+      console.log("first call")
     return apiClient.get("/?limit=150&offset=0");
   },
-  catchThem(limit, offset) {
+  captureThem(limit, offset) {
     return apiClient.get("/?limit=" + limit + "&offset=" + offset);
   },
-  catchOne(id) {
+  captureOne(id) {
     return apiClient.get(`/${id}`);
   },
 };

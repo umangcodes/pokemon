@@ -8,7 +8,7 @@
       <v-spacer></v-spacer>
       Current Page: {{ center }} ||
       <div v-for="page in pages" :key="page">
-        <v-btn text @click="callSpecificPage">{{ page }}</v-btn>
+        <v-btn text @click="callSpecificPage(page)">{{ page }}</v-btn>
       </div>
       <v-spacer></v-spacer>
 
@@ -27,7 +27,7 @@ export default {
       pages: [],
     };
   },
-  props: { center: Number, bound: Array, pageRange: Number }, // center is alias for current page.
+  props: { center: Number, bound: Array, pageRange: Number },
   methods: {
     nextPage() {
       console.log("Next page clicked!");
@@ -46,8 +46,8 @@ export default {
         this.$emit("previousPage", { updatePage: this.center });
       }
     },
-    callSpecificPage(page) {
-      this.$emit("pageClick", { specificPage: page });
+    callSpecificPage(specificPage) {
+      this.$emit("pageClick", specificPage);
     },
     createRange() {
       let array = [];
@@ -61,9 +61,7 @@ export default {
     },
   },
   async created() {
-    console.log("pages" + this.pages);
     this.pages = await this.createRange();
-    console.log("pages" + this.pages);
   },
 };
 </script>
