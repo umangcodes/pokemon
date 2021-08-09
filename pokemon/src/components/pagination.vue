@@ -23,9 +23,12 @@
 <script>
 export default {
   data() {
-    return {
-      pages: [],
-    };
+    return {};
+  },
+  computed: {
+    pages() {
+      return this.createRange;
+    },
   },
   props: { center: Number, bound: Array, pageRange: Number },
   methods: {
@@ -60,9 +63,7 @@ export default {
       return array;
     },
   },
-  async created() {
-    this.pages = await this.createRange();
-  },
+  created() {},
 };
 </script>
 
