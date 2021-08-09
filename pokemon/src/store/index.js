@@ -13,12 +13,6 @@ export default new Vuex.Store({
     firstLoadDisplay: 50,
     loadMore: 15,
     currentLoad: 0,
-    //view 2
-    displayStartLimit: 0,
-    displayStopLimit: 50,
-    outOfBound: [true, false],
-    currentPage: 1,
-    totalDisplay: 50,
   },
   mutations: {
     UPDATE_LIST(state, payload) {
@@ -48,38 +42,6 @@ export default new Vuex.Store({
       state.currentLoad = 0;
     }, // reset card limit
     // view 2 mutations
-    UPDATE_PAGE(state, { offset, page_number }) {
-      state.currentPage = page_number;
-      state.displayStartLimit = state.displayStopLimit;
-      state.displayStopLimit = state.displayStartLimit + offset;
-      console.log("start:" + state.displayStartLimit);
-      console.log("stop:" + state.displayStopLimit);
-      if (state.displayStopLimit < state.myCatch.length) {
-        state.display = state.myCatch.slice(
-          state.displayStartLimit,
-          state.displayStopLimit
-        );
-      }
-    }, // update page when next is clicked
-    UPDATE_PAGE_R(state, { offset, page_number }) {
-      state.currentPage = page_number;
-      state.displayStopLimit = state.displayStartLimit;
-      state.displayStartLimit = state.displayStopLimit + offset;
-      console.log("start:" + state.displayStartLimit);
-      console.log("stop:" + state.displayStopLimit);
-      if (state.displayStopLimit < state.myCatch.length) {
-        state.display = state.myCatch.slice(
-          state.displayStartLimit,
-          state.displayStopLimit
-        );
-      }
-    }, // update page when reversed is clicked
-    UPDATE_CURRENT_PAGE(state, page) {
-      state.currentPage = page;
-    }, // update current page
-    UPDATE_BOUND(state, payload) {
-      state.outOfBound = payload; // [lower, higher]
-    }, // update outOfBound
   },
   actions: {
     //inital fetch
@@ -112,22 +74,5 @@ export default new Vuex.Store({
     resetCurrentLoad({ commit }) {
       commit("RESET_CURRENT_LOAD");
     },
-    updateDisplay({ commit }, limit) {
-      commit("UPDATE_DISPLAY", limit);
-    },
-    updatePage({ commit }, parameters) {
-      commit("UPDATE_PAGE", parameters);
-    },
-    updatePageReverse({ commit }, parameters) {
-      commit("UPDATE_PAGE_R", parameters);
-    },
-    updateCurrentPage({ commit }, updatedPage) {
-      commit("UPDATE_CURRENT_PAGE", updatedPage);
-    },
-    updateBound({ commit }, payload) {
-      commit("UPDATE_BOUND", payload);
-    },
   },
-  getters: {},
-  modules: {},
 });

@@ -6,10 +6,12 @@
         ><v-icon>mdi-chevron-left</v-icon></v-btn
       >
       <v-spacer></v-spacer>
-      Current Page: {{ $store.state.currentPage }}
+      Current Page: {{ center }}
       <v-spacer></v-spacer>
 
-      <v-btn icon @click="nextPage()"><v-icon>mdi-chevron-right</v-icon></v-btn>
+      <v-btn icon :disabled="bound[1]" @click="nextPage()"
+        ><v-icon>mdi-chevron-right</v-icon></v-btn
+      >
       <v-spacer></v-spacer>
     </v-card-actions>
   </v-card>
@@ -20,7 +22,6 @@ export default {
   data() {
     return {
       pages: [],
-      outOfBounds: false,
     };
   },
   props: { center: Number, bound: Array }, // center is alias for current page.
