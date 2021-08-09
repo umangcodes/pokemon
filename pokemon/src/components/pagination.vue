@@ -6,7 +6,10 @@
         ><v-icon>mdi-chevron-left</v-icon></v-btn
       >
       <v-spacer></v-spacer>
-      Current Page: {{ center }}
+      Current Page: {{ center }} ||
+      <div v-for="page in pages" :key="page">
+        <v-btn text @click="callSpecificPage">{{ page }}</v-btn>
+      </div>
       <v-spacer></v-spacer>
 
       <v-btn icon :disabled="bound[1]" @click="nextPage()"
@@ -24,7 +27,7 @@ export default {
       pages: [],
     };
   },
-  props: { center: Number, bound: Array }, // center is alias for current page.
+  props: { center: Number, bound: Array, pageRange: Number }, // center is alias for current page.
   methods: {
     nextPage() {
       console.log("Next page clicked!");
@@ -43,22 +46,24 @@ export default {
         this.$emit("previousPage", { updatePage: this.center });
       }
     },
+    callSpecificPage(page) {
+      this.$emit("pageClick", { specificPage: page });
+    },
     createRange() {
       let array = [];
-      for (
-        let iterator = this.center - 2;
-        iterator <= this.center + 2;
-        iterator++
-      ) {
+      for (let iterator = 0; iterator <= this.pageRange; iterator++) {
         if (iterator > 0) {
           array.push(iterator);
         }
       }
+      console.log(`range: ${array}`);
       return array;
     },
   },
-  created() {
-    this.pages = this.createRange();
+  async created() {
+    console.log("pages" + this.pages);
+    this.pages = await this.createRange();
+    console.log("pages" + this.pages);
   },
 };
 </script>

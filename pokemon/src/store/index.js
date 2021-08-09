@@ -13,6 +13,7 @@ export default new Vuex.Store({
     firstLoadDisplay: 50,
     loadMore: 15,
     currentLoad: 0,
+    pokemonsPerPage: 30,
   },
   mutations: {
     UPDATE_LIST(state, payload) {
@@ -33,15 +34,6 @@ export default new Vuex.Store({
     UPDATE_CURRENT_CATCH(state, payload) {
       state.currentCatch = payload;
     }, // length of my catch
-
-    // view 1 mutations
-    UPDATE_CURRENT_LOAD(state, limit) {
-      state.currentLoad += limit;
-    }, // card limit for display after inital load
-    RESET_CURRENT_LOAD(state) {
-      state.currentLoad = 0;
-    }, // reset card limit
-    // view 2 mutations
   },
   actions: {
     //inital fetch
@@ -56,10 +48,10 @@ export default new Vuex.Store({
       commit("APPEND_LIST", list); // update myCatch and currentCatch
     },
     //subsequent fetch using load more button
-    async catchMorePokemons({ state, commit }) {
+    async catchMorePokemons({ state, commit }, captureMore) {
       commit("UPDATE_CURRENT_CATCH", state.myCatch.length);
-      let res = await pokemon.catchThem(state.loadMore, state.currentCatch);
-      state.currentCatch += state.loadMore;
+      let res = await pokemon.catchThem(captureMore, state.currentCatch);
+      state.currentCatch += captureMore;
       commit("UPDATE_LIST", res.data.results);
       let list = [];
       for (let iterator = 0; iterator < state.pokemons.length; iterator++) {
@@ -67,12 +59,6 @@ export default new Vuex.Store({
         list.push(res.data);
       }
       commit("APPEND_LIST", list);
-    },
-    updateCurrentLoad({ commit }, limit) {
-      commit("UPDATE_CURRENT_LOAD", limit);
-    },
-    resetCurrentLoad({ commit }) {
-      commit("RESET_CURRENT_LOAD");
     },
   },
 });

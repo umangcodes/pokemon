@@ -7,6 +7,8 @@
           :bound="pageBounds"
           @nextPage="loadNext"
           @previousPage="loadPrevious"
+          @pageClick="loadPage"
+          :pageRange="totalPages"
         />
       </v-col>
     </v-row>
@@ -22,6 +24,8 @@
           :bound="pageBounds"
           @nextPage="loadNext"
           @previousPage="loadPrevious"
+          @pageClick="loadPage"
+          :pageRange="totalPages"
         />
       </v-col>
     </v-row>
@@ -44,7 +48,13 @@ export default {
     Card,
     Pagination,
   },
-  computed: {},
+  computed: {
+    totalPages() {
+      let pages = Math.round(this.$store.state.currentCatch / 40);
+      console.log(`total pages: ${pages}`);
+      return pages;
+    },
+  },
   methods: {
     async createSlice(limitArray) {
       const array = await this.$store.state.myCatch.slice(
@@ -67,12 +77,14 @@ export default {
       return limit;
     },
     async loadNext(e) {
+      this.pageBounds = [false, false];
       this.currentPageNumber = e.updatePage;
       console.log(this.currentPageNumber);
       if (this.currentPageNumber >= this.$store.state.totalPages) {
         console.log("page bound update");
         this.pageBounds = [false, true];
         console.log(this.pageBounds);
+        // this.$store.dispatch("catchMorePokemons", 30);
       }
 
       if (this.currentPageNumber == 1) {
@@ -87,7 +99,6 @@ export default {
           this.generateLimit(),
         ]);
         console.log(this.localPokemons);
-
         // again call api to fetch 30 more.
         //this.$store.dispatch("")
         // capture more pokemons
@@ -115,6 +126,30 @@ export default {
         ]);
         console.log(this.localPokemons);
         this.pageBounds = [false, false];
+      }
+    },
+    async loadPage(e) {
+      console.log(e.specificPage);
+      this.currentPageNumber = e.specificPage;
+      console.log(this.currentPageNumber);
+      if (this.currentPageNumber >= this.$store.state.totalPages) {
+        console.log("page bound update");
+        this.pageBounds = [false, true];
+        console.log(this.pageBounds);
+      }
+      if (this.currentPageNumber == 1) {
+        this.pageBounds = [true, false];
+        this.localPokemons = await this.createSlice([
+          0,
+          this.$store.state.firstLoadDisplay,
+        ]);
+      } else {
+        console.log("new method accessed.");
+        this.localPokemons = await this.createSlice([
+          this.generateOffset(),
+          this.generateLimit(),
+        ]);
+        console.log(this.localPokemons);
       }
     },
   },

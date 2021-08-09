@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="12" md="4" v-for="data in display" :key="data.id">
+      <v-col cols="12" md="4" v-for="data in localPokemons" :key="data.id">
         <Card :pokemon="data" />
       </v-col>
     </v-row>
@@ -18,40 +18,49 @@
 
 <script>
 import Card from "@/components/cards/card.vue";
-import { mapState } from "vuex";
+
 export default {
   data() {
-    return {};
+    return {
+      currentLoad: 0,
+      localPokemons: [],
+    };
   },
   components: {
     Card,
   },
-  computed: {
-    ...mapState(["myCatch", "display"]),
-  },
+  computed: {},
   methods: {
-    catchMore() {
-      this.$store.dispatch("updateCurrentLoad", this.$store.state.loadMore);
-      this.$store.dispatch("updateDisplay", [
+    async createSlice(limitArray) {
+      const array = await this.$store.state.myCatch.slice(
+        limitArray[0],
+        limitArray[1]
+      );
+      console.log(array);
+      return array;
+    },
+    async catchMore() {
+      this.currentLoad += 15;
+      this.localPokemons = await this.createSlice([
         0,
-        this.$store.state.firstLoadDisplay + this.$store.state.currentLoad,
+        this.$store.state.firstLoadDisplay + this.currentLoad,
       ]);
-      this.$store.dispatch("catchMorePokemons");
+      this.$store.dispatch("catchMorePokemons", 15);
     },
   },
   async created() {
     console.log("View 1 created");
     if (this.$store.state.currentCatch == 0) {
       await this.$store.dispatch("firstCall");
-      this.$store.dispatch("updateDisplay", [
+      this.localPokemons = await this.createSlice([
         0,
-        this.$store.state.firstLoadDisplay,
+        this.$store.state.firstLoadDisplay + this.currentLoad,
       ]);
     } else {
-      this.$store.dispatch("resetCurrentLoad");
-      this.$store.dispatch("updateDisplay", [
+      this.currentLoad = 0;
+      this.localPokemons = await this.createSlice([
         0,
-        this.$store.state.firstLoadDisplay,
+        this.$store.state.firstLoadDisplay + this.currentLoad,
       ]);
     }
   },
