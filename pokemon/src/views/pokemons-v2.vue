@@ -34,13 +34,13 @@ export default Vue.extend({
     else await this.loadPokemonsBasedOnPage(this.$route.params.page);
   },
   methods: {
-    async loadPokemonsBasedOnPage(page: string) {
+    async loadPokemonsBasedOnPage(page) {
       const pageNum = Number(page);
       const offset = 30 * (pageNum - 1);
       await this.$store.dispatch("loadPokemons", { offset, limit: 30 });
       await this.$store.dispatch("loadTotal");
     },
-    redirectToPage(page: string) {
+    redirectToPage(page) {  
       this.$router.push({ name: "pokemons-v2", params: { page } });
     },
   },
