@@ -20,19 +20,23 @@ export default Vue.extend({
     PokemonGrid,
     PokemonPagination,
   },
+
   computed: {
     ...mapGetters(["pageCount"]),
     ...mapState(["pokemons"]),
   },
+
   async beforeRouteUpdate(to, from, next) {
     if (!to.params.page) this.redirectToPage("1");
     else await this.loadPokemonsBasedOnPage(to.params.page);
     next();
   },
+
   async created() {
     if (!this.$route.params.page) this.redirectToPage("1");
     else await this.loadPokemonsBasedOnPage(this.$route.params.page);
   },
+
   methods: {
     async loadPokemonsBasedOnPage(page) {
       const pageNum = Number(page);
@@ -40,7 +44,8 @@ export default Vue.extend({
       await this.$store.dispatch("loadPokemons", { offset, limit: 30 });
       await this.$store.dispatch("loadTotal");
     },
-    redirectToPage(page) {  
+
+    redirectToPage(page) {
       this.$router.push({ name: "pokemons-v2", params: { page } });
     },
   },

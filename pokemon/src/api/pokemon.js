@@ -22,11 +22,9 @@ export default {
   },
 
   async getPokemons({ offset, limit }) {
-    const pokemonIds = Array.from(
-      { length: limit || 20 },
-      (_, i) => i + 1 + (offset || 0)
+    const pokemonPromises = await Array.from({ length: limit || 20 }, (_, i) =>
+      getPokemonFromUrl(i + 1 + (offset || 0))
     );
-    const pokemonPromises = pokemonIds.map(getPokemonFromUrl);
     const pokemons = await Promise.all(pokemonPromises);
     return pokemons.map(transformPokemon);
   },
