@@ -11,11 +11,10 @@
 </template>
 
 <script>
-import Vue from "vue";
 import { mapGetters, mapState } from "vuex";
 import PokemonGrid from "@/components/pokemon-grid.vue";
 import PokemonPagination from "@/components/pokemon-pagination.vue";
-export default Vue.extend({
+export default {
   components: {
     PokemonGrid,
     PokemonPagination,
@@ -49,5 +48,5 @@ export default Vue.extend({
       this.$router.push({ name: "pokemons-v2", params: { page } });
     },
   },
-});
+};
 </script>
