@@ -1,5 +1,5 @@
 import axios from "axios";
-const apiClient = axios.create({
+const pokemonApi = axios.create({
   baseURL: `https://pokeapi.co/api/v2/pokemon`,
   withCredentials: false, // This is the default
   headers: {
@@ -9,14 +9,29 @@ const apiClient = axios.create({
 });
 
 export default {
-  captureThemFirst() {
-      console.log("first call")
-    return apiClient.get("/?limit=150&offset=0");
+  async countPokemons() {
+    return this.pokemons.length;
   },
-  captureThem(limit, offset) {
-    return apiClient.get("/?limit=" + limit + "&offset=" + offset);
+  async callApi(){
+    let res = await pokemonApi.get(
+      `/?limit=${queryOptions.limit || 150}&offset=${queryOptions.offset}`
+    );
+    
+    let pokemons = res.data.results.slice(start, end);
+    let array = [];
+    for (let i = start; i < end; i += 1) {
+      let res = await pokemonApi.get(`/${pokemons[i].name}`);
+      console.log(res.data);
+      array.push(res.data);
+    }
+    
+
+    return pokemons;
+
   },
-  captureOne(id) {
-    return apiClient.get(`/${id}`);
+  async getPokemons(queryOptions) {
+    const start = queryOptions.offset || 0;
+    const end = start + (queryOptions.limit || 50);
+    pokemons = array.slice(start, end);
   },
 };

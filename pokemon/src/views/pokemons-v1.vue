@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     loadMoreHandler() {
-      this.$store.dispatch("loadMorePokemons", 15);
+      this.$store.dispatch("loadMorePokemons", { limit: 15 });
     },
   },
 };

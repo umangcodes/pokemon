@@ -6,9 +6,8 @@
 </template>
 
 <script>
-import Vue from "vue";
 import AppNav from "@/components/app-nav.vue";
-export default Vue.extend({
+export default {
   components: { AppNav },
-});
+};
 </script>

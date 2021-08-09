@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import pokemonApi from "../api/pokemon";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -38,19 +38,20 @@ export default new Vuex.Store({
     async loadMorePokemons({ state, commit }, limit) {
       commit("SET_LOADING", true);
       const queryOptions = { limit, offset: state.pokemons.length };
-      commit("ADD_POKEMONS", await context.pokemonRepository.get(queryOptions));
+      console.log(`${queryOptions.limit}, ${queryOptions.offset}`);
+      commit("ADD_POKEMONS", await pokemonApi.getPokemons(queryOptions));
       commit("SET_LOADING", false);
     },
 
     async loadPokemons({ commit }, queryOptions) {
       commit("SET_LOADING", true);
-      commit("SET_POKEMONS", await context.pokemonRepository.get(queryOptions));
+      commit("SET_POKEMONS", await pokemonApi.getPokemons(queryOptions));
       commit("SET_LOADING", false);
     },
 
     async loadTotal({ commit }) {
       commit("SET_LOADING", true);
-      commit("SET_TOTAL", await context.pokemonRepository.count());
+      commit("SET_TOTAL", await pokemonApi.countPokemons());
       commit("SET_LOADING", false);
     },
   },
