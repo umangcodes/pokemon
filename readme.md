@@ -46,11 +46,11 @@
 ### View 2
 
 ```
-
+To be updated...
 ```
 
 ### Noteworthy mentions
 
 ```
-I created this project as a part of my evaluation for the position of vuejs developer at xxxx.
+To be updated...
 ```
